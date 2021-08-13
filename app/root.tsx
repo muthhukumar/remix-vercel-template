@@ -1,26 +1,19 @@
-import type { LinksFunction, LoaderFunction } from "@remix-run/react";
-import {
-  Meta,
-  Links,
-  Scripts,
-  useRouteData,
-  useLiveReload
-} from "@remix-run/react";
-import { Outlet } from "react-router-dom";
+import { Meta, Links, Scripts, useLoaderData } from '@remix-run/react'
+import { Outlet } from 'react-router-dom'
+import { LinksFunction, LoaderFunction, LiveReload } from 'remix'
 
-import stylesUrl from "./styles/global.css";
+import stylesUrl from './styles/global.css'
 
 export let links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
-};
+  return [{ rel: 'stylesheet', href: stylesUrl }]
+}
 
 export let loader: LoaderFunction = async () => {
-  return { date: new Date() };
-};
+  return { date: new Date() }
+}
 
 export default function App() {
-  let data = useRouteData();
-  useLiveReload();
+  let data = useLoaderData()
 
   return (
     <html lang="en">
@@ -38,9 +31,10 @@ export default function App() {
         </footer>
 
         <Scripts />
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
-  );
+  )
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
@@ -56,13 +50,12 @@ export function ErrorBoundary({ error }: { error: Error }) {
           <h1>App Error</h1>
           <pre>{error.message}</pre>
           <p>
-            Replace this UI with what you want users to see when your app throws
-            uncaught errors.
+            Replace this UI with what you want users to see when your app throws uncaught errors.
           </p>
         </div>
 
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
