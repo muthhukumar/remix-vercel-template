@@ -1,7 +1,7 @@
-import {MetaFunction} from 'remix'
+import { MetaFunction } from 'remix'
 
 export let meta: MetaFunction = () => {
-  return {title: "Ain't nothing here"}
+  return { title: "Ain't nothing here" }
 }
 
 export default function FourOhFour() {
