@@ -4,16 +4,16 @@ import { LinksFunction, LoaderFunction, LiveReload } from 'remix'
 
 import stylesUrl from './styles/global.css'
 
-export let links: LinksFunction = () => {
+export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }]
 }
 
-export let loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async () => {
   return { date: new Date() }
 }
 
 export default function App() {
-  let data = useLoaderData()
+  const data = useLoaderData()
 
   return (
     <html lang="en">

@@ -10,7 +10,9 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|gql|graphql|mdx|vue)\"",
     "setup": "npm install",
     "prepare": "husky install",
-    "test": "echo 'add test'"
+    "test": "echo 'add test'",
+    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "validate": "npm run lint"
   },
   "dependencies": {
     "@remix-run/node": "0.18.0-pre.0",
@@ -30,7 +32,12 @@
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "typescript": "^4.1.2",
-    "vercel": "^21.2.2"
+    "vercel": "^21.2.2",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.19.0"
   },
   "engines": {
     "node": "14"

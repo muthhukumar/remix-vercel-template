@@ -1,6 +1,6 @@
 import { MetaFunction } from 'remix'
 
-export let meta: MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return { title: "Ain't nothing here" }
 }
 
