@@ -1,6 +1,6 @@
-import { Meta, Links, Scripts, useLoaderData } from '@remix-run/react'
+import { Meta, Links, Scripts, useRouteData, LiveReload } from '@remix-run/react'
+import { LinksFunction, LoaderFunction } from 'remix'
 import { Outlet } from 'react-router-dom'
-import { LinksFunction, LoaderFunction, LiveReload } from 'remix'
 
 import stylesUrl from './styles/global.css'
 
@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async () => {
 }
 
 export default function App() {
-  const data = useLoaderData()
+  const data = useRouteData()
 
   return (
     <html lang="en">
