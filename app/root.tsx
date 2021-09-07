@@ -1,11 +1,15 @@
+import globalStyles from './styles/global.css'
+import tailwindcss from './styles/tailwind.css'
+
 import { Meta, Links, Scripts, useRouteData, LiveReload } from '@remix-run/react'
 import { LinksFunction, LoaderFunction } from 'remix'
 import { Outlet } from 'react-router-dom'
 
-import stylesUrl from './styles/global.css'
-
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: stylesUrl }]
+  return [
+    { rel: 'stylesheet', href: globalStyles },
+    { rel: 'stylesheet', href: tailwindcss },
+  ]
 }
 
 export const loader: LoaderFunction = async () => {

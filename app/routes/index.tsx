@@ -1,15 +1,10 @@
-import stylesUrl from '../styles/index.css'
-import { LinksFunction, LoaderFunction, MetaFunction, useRouteData } from 'remix'
+import { LoaderFunction, MetaFunction, useRouteData } from 'remix'
 
 export const meta: MetaFunction = () => {
   return {
     title: 'Remix Starter',
     description: 'Welcome to remix!',
   }
-}
-
-export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: stylesUrl }]
 }
 
 export const loader: LoaderFunction = async () => {
