@@ -2,8 +2,8 @@
 .DS_Store
 node_modules/
 
-.cache
-server/build
+/.cache
+/server/build
 /public/build
 
 /app/styles/**/*.css
