@@ -68,7 +68,6 @@ function App() {
     <html lang="en" className={theme ?? ''}>
       <head>
         <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
         <Meta />
         <Links />
         <NonFlashOfWrongThemeEls />
