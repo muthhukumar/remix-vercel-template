@@ -2,32 +2,78 @@ import globalStyles from './styles/global.css'
 import tailwindcss from './styles/tailwind.css'
 
 import { Meta, Links, Scripts, useRouteData, LiveReload } from '@remix-run/react'
-import { LinksFunction, LoaderFunction } from 'remix'
+import { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
 import { Outlet } from 'react-router-dom'
+
+import { NonFlashOfWrongThemeEls, ThemeProvider, useTheme } from '~/utils/theme-provider'
 
 export const links: LinksFunction = () => {
   return [
+    {
+      rel: 'preload',
+      as: 'font',
+      href: '/fonts/roboto-v27-latin-regular.woff2',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous',
+    },
+    {
+      rel: 'preload',
+      as: 'font',
+      href: '/fonts/roboto-v27-latin-regular.woff',
+      type: 'font/woff',
+      crossOrigin: 'anonymous',
+    },
+    {
+      rel: 'preload',
+      as: 'font',
+      href: '/fonts/roboto-v27-latin-500.woff2',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous',
+    },
+    {
+      rel: 'preload',
+      as: 'font',
+      href: '/fonts/roboto-v27-latin-500.woff',
+      type: 'font/woff',
+      crossOrigin: 'anonymous',
+    },
     { rel: 'stylesheet', href: globalStyles },
     { rel: 'stylesheet', href: tailwindcss },
+    { rel: 'apple-touch-icon', href: '/favicon/apple-touch-icon.png' },
+    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
+    { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
+    { rel: 'manifest', href: '/favicon/site.webmanifest' },
   ]
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: `Remix vercel template`,
+    description: 'Muthukumar is a frontend developer, who loves to code.',
+    viewport: 'width=device-width,initial-scale=1,viewport-fit=cover',
+    charSet: 'utf-8',
+  }
 }
 
 export const loader: LoaderFunction = async () => {
   return { date: new Date() }
 }
 
-export default function App() {
+function App() {
   const data = useRouteData()
 
+  const { theme } = useTheme()
+
   return (
-    <html lang="en">
+    <html lang="en" className={theme ?? ''}>
       <head>
         <meta charSet="utf-8" />
         <link rel="icon" href="/favicon.png" type="image/png" />
         <Meta />
         <Links />
+        <NonFlashOfWrongThemeEls />
       </head>
-      <body>
+      <body className="bg-primary">
         <Outlet />
 
         <footer>
@@ -41,25 +87,10 @@ export default function App() {
   )
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export default function AppWithProvider() {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <title>Oops!</title>
-      </head>
-      <body>
-        <div>
-          <h1>App Error</h1>
-          <pre>{error.message}</pre>
-          <p>
-            Replace this UI with what you want users to see when your app throws uncaught errors.
-          </p>
-        </div>
-
-        <Scripts />
-      </body>
-    </html>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   )
 }

@@ -2,7 +2,7 @@ import { LoaderFunction, MetaFunction, useRouteData } from 'remix'
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Remix Starter',
+    title: 'Remix vercel template',
     description: 'Welcome to remix!',
   }
 }
