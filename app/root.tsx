@@ -49,7 +49,7 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction = () => {
   return {
     title: `Remix vercel template`,
-    description: 'Muthukumar is a frontend developer, who loves to code.',
+    description: 'Remix vercel template helps you with start a project at eazzz',
     viewport: 'width=device-width,initial-scale=1,viewport-fit=cover',
     charSet: 'utf-8',
   }
