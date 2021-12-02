@@ -1,84 +1,84 @@
-import globalStyles from './styles/global.css'
-import tailwindcss from './styles/tailwind.css'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from 'remix'
+import type { LinksFunction } from 'remix'
 
-import { Meta, Links, Scripts, useRouteData, LiveReload } from '@remix-run/react'
-import { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
-import { Outlet } from 'react-router-dom'
-
-import { NonFlashOfWrongThemeEls, ThemeProvider, useTheme } from '~/utils/theme-provider'
+import globalStylesUrl from '~/styles/global.css'
+import tailwindStylesUrl from '~/styles/tailwind.css'
 
 export const links: LinksFunction = () => {
   return [
-    {
-      rel: 'preload',
-      as: 'font',
-      href: '/fonts/roboto-v27-latin-regular.woff2',
-      type: 'font/woff2',
-      crossOrigin: 'anonymous',
-    },
-    {
-      rel: 'preload',
-      as: 'font',
-      href: '/fonts/roboto-v27-latin-regular.woff',
-      type: 'font/woff',
-      crossOrigin: 'anonymous',
-    },
-    {
-      rel: 'preload',
-      as: 'font',
-      href: '/fonts/roboto-v27-latin-500.woff2',
-      type: 'font/woff2',
-      crossOrigin: 'anonymous',
-    },
-    {
-      rel: 'preload',
-      as: 'font',
-      href: '/fonts/roboto-v27-latin-500.woff',
-      type: 'font/woff',
-      crossOrigin: 'anonymous',
-    },
-    { rel: 'stylesheet', href: globalStyles },
-    { rel: 'stylesheet', href: tailwindcss },
-    { rel: 'apple-touch-icon', href: '/favicon/apple-touch-icon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
-    { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
-    { rel: 'manifest', href: '/favicon/site.webmanifest' },
+    { rel: 'stylesheet', href: globalStylesUrl },
+    { rel: 'stylesheet', href: tailwindStylesUrl },
   ]
 }
 
-export const meta: MetaFunction = () => {
-  return {
-    title: `Remix vercel template`,
-    description: 'Remix vercel template helps you with start a project at eazzz',
-    viewport: 'width=device-width,initial-scale=1,viewport-fit=cover',
-    charSet: 'utf-8',
+export default function App() {
+  return (
+    <Document>
+      <Layout>
+        <Outlet />
+      </Layout>
+    </Document>
+  )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error)
+  return (
+    <Document title="Error!">
+      <Layout>
+        <div>
+          <h1>There was an error</h1>
+          <p>{error.message}</p>
+          <hr />
+          <p>Hey, developer, you should replace this with what you want your users to see.</p>
+        </div>
+      </Layout>
+    </Document>
+  )
+}
+
+// https://remix.run/docs/en/v1/api/conventions#catchboundary
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  let message
+  switch (caught.status) {
+    case 401:
+      message = <p>Oops! Looks like you tried to visit a page that you do not have access to.</p>
+      break
+    case 404:
+      message = <p>Oops! Looks like you tried to visit a page that does not exist.</p>
+      break
+
+    default:
+      throw new Error(caught.data || caught.statusText)
   }
-}
-
-export const loader: LoaderFunction = async () => {
-  return { date: new Date() }
-}
-
-function App() {
-  const data = useRouteData()
-
-  const { theme } = useTheme()
 
   return (
-    <html lang="en" className={theme ?? ''}>
+    <Document title={`${caught.status} ${caught.statusText}`}>
+      <Layout>
+        <h1>
+          {caught.status}: {caught.statusText}
+        </h1>
+        {message}
+      </Layout>
+    </Document>
+  )
+}
+
+function Document({ children, title }: { children: React.ReactNode; title?: string }) {
+  return (
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
-        <NonFlashOfWrongThemeEls />
       </head>
-      <body className="bg-primary">
-        <Outlet />
-
-        <footer>
-          <p>This page was rendered at {data.date.toLocaleString()}</p>
-        </footer>
-
+      <body>
+        {children}
+        <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
@@ -86,10 +86,6 @@ function App() {
   )
 }
 
-export default function AppWithProvider() {
-  return (
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
-  )
+function Layout({ children }: { children: React.ReactNode }) {
+  return <div>{children}</div>
 }
